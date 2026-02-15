@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+  <head>
+    <title>BBQ Gallery | Roland Cole Smith</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript
+      ><link rel="stylesheet" href="assets/css/noscript.css"
+    /></noscript>
+    <style>
+      #header {
+        background-color: #2a638e;
+      }
+
+      #header > nav > ul > li a {
+        color: rgba(230, 242, 255, 0.78);
+      }
+
+      #header > nav > ul > li a.active {
+        color: #ffffff;
+      }
+
+      .bbq-gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5em;
+      }
+
+      .bbq-card {
+        background: rgba(210, 230, 255, 0.08);
+        border: solid 1px rgba(210, 230, 255, 0.25);
+        border-radius: 0.45em;
+        overflow: hidden;
+      }
+
+      .bbq-card img {
+        width: 100%;
+        height: 17em;
+        object-fit: cover;
+        display: block;
+      }
+
+      .bbq-card figcaption {
+        padding: 1em 1.1em;
+        color: rgba(230, 242, 255, 0.9);
+        font-size: 0.9em;
+      }
+
+      .bbq-note {
+        color: rgba(230, 242, 255, 0.8);
+        font-size: 0.95em;
+      }
+
+      @media screen and (max-width: 980px) {
+        .bbq-gallery-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media screen and (max-width: 736px) {
+        .bbq-gallery-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body class="is-preload">
+    <header id="header">
+      <a href="index.html" class="title">Roland Cole Smith</a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="food.html" class="active">Food</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div id="wrapper">
+      <section id="main" class="wrapper style2">
+        <div class="inner">
+          <h1 class="major">BBQ Gallery</h1>
+          <p>
+            A few cooks I am proud of. Swap any image by replacing the
+            <code>src</code> path in each card.
+          </p>
+          <p class="bbq-note">
+            Image folder suggestion: <code>assets/images/bbq/</code>
+          </p>
+
+          <div class="bbq-gallery-grid">
+            <figure class="bbq-card">
+              <img src="assets/images/bbqpic.jpeg" alt="Smoked brisket slices" />
+              <figcaption>Smoked brisket with a deep bark and clean slices.</figcaption>
+            </figure>
+
+            <figure class="bbq-card">
+              <img src="assets/images/bbqpic.jpeg" alt="BBQ ribs plated" />
+              <figcaption>Competition-style ribs with a glossy finish.</figcaption>
+            </figure>
+
+            <figure class="bbq-card">
+              <img src="assets/images/bbqpic.jpeg" alt="Pulled pork sandwich" />
+              <figcaption>Pulled pork after a low and slow overnight cook.</figcaption>
+            </figure>
+
+            <figure class="bbq-card">
+              <img src="assets/images/bbqpic.jpeg" alt="Smoked chicken quarters" />
+              <figcaption>Chicken quarters with crisp skin and balanced smoke.</figcaption>
+            </figure>
+
+            <figure class="bbq-card">
+              <img src="assets/images/bbqpic.jpeg" alt="Smoked sausage platter" />
+              <figcaption>Homemade sausage links and fresh sides.</figcaption>
+            </figure>
+
+            <figure class="bbq-card">
+              <img src="assets/images/bbqpic.jpeg" alt="BBQ tray with sides" />
+              <figcaption>Full tray build with brisket, ribs, and classic sides.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer id="footer" class="wrapper alt">
+      <div class="inner">
+        <ul class="menu">
+          <li>&copy; Roland Cole Smith. All rights reserved.</li>
+          <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
