@@ -110,24 +110,80 @@
         padding: 1.2em;
       }
 
-      .data-table-wrap {
-        overflow-x: auto;
+      .games-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1em;
+        margin-top: 1em;
       }
 
-      #games-table {
-        min-width: 760px;
+      .game-card {
+        background: rgba(210, 230, 255, 0.09);
+        border: solid 1px rgba(210, 230, 255, 0.28);
+        border-radius: 0.5em;
+        padding: 1em;
       }
 
-      #games-table th {
-        white-space: nowrap;
+      .game-time {
+        color: rgba(230, 242, 255, 0.9);
+        font-size: 0.9em;
+        margin-bottom: 0.6em;
       }
 
-      #games-table td {
-        color: rgba(230, 242, 255, 0.88);
+      .matchup {
+        color: #ffffff;
+        font-weight: 700;
+        margin-bottom: 0.8em;
+      }
+
+      .bet-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6em;
+      }
+
+      .bet-box {
+        background: rgba(15, 38, 62, 0.55);
+        border: solid 1px rgba(210, 230, 255, 0.25);
+        border-radius: 0.45em;
+        padding: 0.7em;
+      }
+
+      .bet-team {
+        color: rgba(230, 242, 255, 0.9);
+        font-size: 0.85em;
+      }
+
+      .bet-odds {
+        color: #ffffff;
+        font-weight: 700;
+      }
+
+      .bet-profit {
+        color: rgba(177, 245, 204, 0.95);
+        font-weight: 700;
+      }
+
+      .bet-total {
+        color: rgba(230, 242, 255, 0.8);
+        font-size: 0.85em;
+      }
+
+      .games-empty {
+        grid-column: 1 / -1;
+        background: rgba(15, 38, 62, 0.55);
+        border: solid 1px rgba(210, 230, 255, 0.25);
+        border-radius: 0.45em;
+        padding: 0.9em;
+        color: rgba(230, 242, 255, 0.85);
       }
 
       @media screen and (max-width: 980px) {
         .project-meta {
+          grid-template-columns: 1fr;
+        }
+
+        .games-list {
           grid-template-columns: 1fr;
         }
       }
@@ -458,62 +514,18 @@
               </svg>
             </div>
 
-            <h3>Live App Endpoint</h3>
-            <div class="endpoint-box">
-              <strong>Set your app endpoint:</strong>
-              <code id="app-endpoint-display"
-                >https://YOUR-APP-ENDPOINT.com</code
-              >
-              <strong style="margin-top: 0.9em; display: block"
-                >Set your data API endpoint:</strong
-              >
-              <code id="data-endpoint-display"
-                >https://YOUR-DATA-API-ENDPOINT.com/bets</code
-              >
-              <p class="small-note">
-                The page will fetch pipeline data from the data endpoint below.
-                If unavailable, it falls back to local demo rows.
-              </p>
-              <ul class="actions">
-                <li>
-                  <a href="#" id="open-live-app-btn" class="button primary"
-                    >Open Live App</a
-                  >
-                </li>
-              </ul>
-              <p id="pipeline-status" class="pipeline-status warn">
-                Waiting for pipeline endpoint configuration.
-              </p>
-            </div>
-
             <section class="data-section">
               <h3>Today's Games ($10 Moneyline Payouts)</h3>
               <p class="small-note">
-                Defaults are locked to <code>basketball_ncaab</code> and
-                today's date to prevent user input errors.
+                Showing all games for today only. No extra days, no missing-day
+                spillover.
+              </p>
+              <p id="pipeline-status" class="pipeline-status warn">
+                Loading today's games...
               </p>
 
-              <div class="data-table-wrap">
-                <table id="games-table">
-                  <thead>
-                    <tr>
-                      <th>Time (UTC)</th>
-                      <th>Away</th>
-                      <th>Home</th>
-                      <th>Away ML</th>
-                      <th>$10 Away Profit</th>
-                      <th>Away Total</th>
-                      <th>Home ML</th>
-                      <th>$10 Home Profit</th>
-                      <th>Home Total</th>
-                    </tr>
-                  </thead>
-                  <tbody id="games-table-body">
-                    <tr>
-                      <td colspan="9">Loading games...</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div id="games-list" class="games-list">
+                <div class="games-empty">Loading games...</div>
               </div>
             </section>
           </article>
@@ -539,10 +551,8 @@
     <script src="assets/js/main.js"></script>
     <script>
       const PIPELINE_CONFIG = {
-        appEndpoint: "https://YOUR-APP-ENDPOINT.com",
         dataEndpoint: "https://48zz8kcvj8.execute-api.us-east-2.amazonaws.com",
       };
-      const DEFAULT_SPORT = "basketball_ncaab";
       const STAKE = 10;
 
       function getTodayDateIso() {
@@ -551,6 +561,29 @@
         const month = String(now.getMonth() + 1).padStart(2, "0");
         const day = String(now.getDate()).padStart(2, "0");
         return year + "-" + month + "-" + day;
+      }
+
+      function getOrdinalSuffix(day) {
+        const mod100 = day % 100;
+        if (mod100 >= 11 && mod100 <= 13) return "th";
+        const mod10 = day % 10;
+        if (mod10 === 1) return "st";
+        if (mod10 === 2) return "nd";
+        if (mod10 === 3) return "rd";
+        return "th";
+      }
+
+      function formatLongDateWithOrdinal(isoDate) {
+        const parts = String(isoDate).split("-");
+        if (parts.length !== 3) return isoDate;
+        const year = Number(parts[0]);
+        const monthIndex = Number(parts[1]) - 1;
+        const day = Number(parts[2]);
+        if (!year || monthIndex < 0 || monthIndex > 11 || !day) return isoDate;
+        const monthName = new Date(year, monthIndex, 1).toLocaleString([], {
+          month: "long",
+        });
+        return monthName + " " + day + getOrdinalSuffix(day) + ", " + year;
       }
 
       function money(value) {
@@ -570,6 +603,12 @@
         });
       }
 
+      function getUtcDateIso(utcValue) {
+        const date = new Date(utcValue);
+        if (Number.isNaN(date.getTime())) return null;
+        return date.toISOString().slice(0, 10);
+      }
+
       function setPipelineStatus(message, type) {
         const statusEl = document.getElementById("pipeline-status");
         statusEl.textContent = message;
@@ -578,84 +617,84 @@
       }
 
       function renderGamesRows(games) {
-        const tbody = document.getElementById("games-table-body");
+        const list = document.getElementById("games-list");
         if (!games || !games.length) {
-          tbody.innerHTML = "<tr><td colspan='9'>No games found.</td></tr>";
+          list.innerHTML = "<div class='games-empty'>No games found.</div>";
           return;
         }
 
-        tbody.innerHTML = games
+        list.innerHTML = games
           .map(function (g) {
             return (
-              "<tr>" +
-              "<td>" +
+              "<article class='game-card'>" +
+              "<div class='game-time'>" +
               formatLocalGameTime(g.commence_time) +
-              "</td>" +
-              "<td>" +
-              (g.away_team || "-") +
-              "</td>" +
-              "<td>" +
+              "</div>" +
+              "<div class='matchup'>" +
               (g.home_team || "-") +
-              "</td>" +
-              "<td>" +
-              (g.moneyline_away ?? "-") +
-              "</td>" +
-              "<td>" +
-              money(g.payouts && g.payouts.away && g.payouts.away.profit) +
-              "</td>" +
-              "<td>" +
-              money(g.payouts && g.payouts.away && g.payouts.away.total) +
-              "</td>" +
-              "<td>" +
+              " vs " +
+              (g.away_team || "-") +
+              "</div>" +
+              "<div class='bet-options'>" +
+              "<div class='bet-box'>" +
+              "<div class='bet-team'>Home (" +
+              (g.home_team || "-") +
+              ")</div>" +
+              "<div class='bet-odds'>" +
               (g.moneyline_home ?? "-") +
-              "</td>" +
-              "<td>" +
+              "</div>" +
+              "<div class='bet-profit'>Profit: " +
               money(g.payouts && g.payouts.home && g.payouts.home.profit) +
-              "</td>" +
-              "<td>" +
+              "</div>" +
+              "<div class='bet-total'>Total: " +
               money(g.payouts && g.payouts.home && g.payouts.home.total) +
-              "</td>" +
-              "</tr>"
+              "</div>" +
+              "</div>" +
+              "<div class='bet-box'>" +
+              "<div class='bet-team'>Away (" +
+              (g.away_team || "-") +
+              ")</div>" +
+              "<div class='bet-odds'>" +
+              (g.moneyline_away ?? "-") +
+              "</div>" +
+              "<div class='bet-profit'>Profit: " +
+              money(g.payouts && g.payouts.away && g.payouts.away.profit) +
+              "</div>" +
+              "<div class='bet-total'>Total: " +
+              money(g.payouts && g.payouts.away && g.payouts.away.total) +
+              "</div>" +
+              "</div>" +
+              "</div>" +
+              "</article>"
             );
           })
           .join("");
       }
 
       async function loadPipelineData() {
-        const appDisplay = document.getElementById("app-endpoint-display");
-        const dataDisplay = document.getElementById("data-endpoint-display");
-        const appButton = document.getElementById("open-live-app-btn");
-        const tbody = document.getElementById("games-table-body");
+        const list = document.getElementById("games-list");
         const today = getTodayDateIso();
-
-        appDisplay.textContent = PIPELINE_CONFIG.appEndpoint;
-        appButton.href = PIPELINE_CONFIG.appEndpoint;
-        if (PIPELINE_CONFIG.appEndpoint.includes("YOUR-APP-ENDPOINT")) {
-          appButton.href = "#";
-        }
+        const formattedToday = formatLongDateWithOrdinal(today);
 
         const base = (PIPELINE_CONFIG.dataEndpoint || "").replace(/\/+$/, "");
         const isPlaceholder = base.includes("YOUR-DATA-API-ENDPOINT");
         const query =
-          "sport=" +
-          encodeURIComponent(DEFAULT_SPORT) +
-          "&date=" +
+          "date=" +
           encodeURIComponent(today) +
           "&stake=" +
           encodeURIComponent(STAKE);
         const url = base + "/games?" + query;
-        dataDisplay.textContent = url;
 
         if (isPlaceholder) {
           setPipelineStatus(
             "Set PIPELINE_CONFIG.dataEndpoint to your API base URL.",
             "warn",
           );
-          tbody.innerHTML = "<tr><td colspan='9'>Endpoint not configured.</td></tr>";
+          list.innerHTML = "<div class='games-empty'>Endpoint not configured.</div>";
           return;
         }
 
-        tbody.innerHTML = "<tr><td colspan='9'>Loading games...</td></tr>";
+        list.innerHTML = "<div class='games-empty'>Loading games...</div>";
 
         try {
           const response = await fetch(url, {
@@ -669,21 +708,27 @@
           }
 
           const games = Array.isArray(payload.games) ? payload.games : [];
-          renderGamesRows(games);
+          const gamesForDay = games.filter(function (g) {
+            const gameDate = getUtcDateIso(g.commence_time);
+            return gameDate === today;
+          });
+
+          renderGamesRows(gamesForDay);
           setPipelineStatus(
             "Loaded " +
-              games.length +
-              " " +
-              DEFAULT_SPORT +
+              gamesForDay.length +
               " games for " +
-              today +
+              formattedToday +
               ".",
             "ok",
           );
         } catch (error) {
-          tbody.innerHTML =
-            "<tr><td colspan='9'>Fetch error: " + error.message + "</td></tr>";
-          setPipelineStatus("Pipeline fetch failed (" + error.message + ").", "warn");
+          list.innerHTML =
+            "<div class='games-empty'>Fetch error: " + error.message + "</div>";
+          setPipelineStatus(
+            "Pipeline fetch failed (" + error.message + ").",
+            "warn",
+          );
         }
       }
 
@@ -691,4 +736,3 @@
     </script>
   </body>
 </html>
-
