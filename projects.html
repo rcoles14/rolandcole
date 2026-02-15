@@ -7,7 +7,11 @@
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
-    <link rel="icon" type="image/png" href="assets/images/favicon-rcs.png?v=2" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/images/favicon-rcs.png?v=2"
+    />
     <link rel="shortcut icon" href="assets/images/favicon-rcs.png?v=2" />
     <link rel="apple-touch-icon" href="assets/images/favicon-rcs.png?v=2" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -106,55 +110,20 @@
         padding: 1.2em;
       }
 
-      .kpi-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 0.8em;
-        margin: 1em 0 1.3em 0;
-      }
-
-      .kpi {
-        background: rgba(210, 230, 255, 0.1);
-        border: solid 1px rgba(210, 230, 255, 0.25);
-        border-radius: 0.4em;
-        padding: 0.85em;
-      }
-
-      .kpi-label {
-        display: block;
-        font-size: 0.72em;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: rgba(230, 242, 255, 0.8);
-      }
-
-      .kpi-value {
-        display: block;
-        font-size: 1.2em;
-        color: #ffffff;
-        font-weight: 700;
-      }
-
       .data-table-wrap {
         overflow-x: auto;
       }
 
-      #bets-table {
+      #games-table {
         min-width: 760px;
       }
 
-      #bets-table th {
+      #games-table th {
         white-space: nowrap;
       }
 
-      #bets-table td {
+      #games-table td {
         color: rgba(230, 242, 255, 0.88);
-      }
-
-      @media screen and (max-width: 980px) {
-        .kpi-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
       }
 
       @media screen and (max-width: 980px) {
@@ -196,52 +165,175 @@
               </div>
               <div>
                 <strong>Focus</strong>
-                <span>Scalable ingestion, clean transformations, low-latency API</span>
+                <span
+                  >Scalable ingestion, clean transformations, low-latency
+                  API</span
+                >
               </div>
               <div>
                 <strong>Status</strong>
-                <span>In Progress (replace with your current status)</span>
+                <span>Active - Auto Deploy Enabled</span>
               </div>
+            </div>
+
+            <h3>CI/CD Deployment Pipeline</h3>
+            <div class="endpoint-box">
+              <strong
+                >GitHub Actions workflow is now live for this site.</strong
+              >
+              <p class="small-note">
+                On push to your deployment branch, GitHub Actions runs your
+                deploy workflow and publishes the latest site updates
+                automatically.
+              </p>
+              <p class="small-note">
+                Workflow file: <code>.github/workflows/deploy.yml</code>
+              </p>
             </div>
 
             <h3 class="diagram-title">Architecture Diagram: High-Level</h3>
             <div class="diagram-wrap">
-              <svg viewBox="0 0 980 330" width="980" height="330" role="img" aria-label="High-level architecture diagram">
+              <svg
+                viewBox="0 0 980 330"
+                width="980"
+                height="330"
+                role="img"
+                aria-label="High-level architecture diagram"
+              >
                 <defs>
                   <style>
-                    .node { fill: rgba(72, 138, 188, 0.9); stroke: rgba(230, 242, 255, 0.9); stroke-width: 2; }
-                    .label { fill: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 15px; font-weight: 700; }
-                    .sub { fill: rgba(230, 242, 255, 0.92); font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
-                    .line { stroke: rgba(230, 242, 255, 0.9); stroke-width: 2.5; marker-end: url(#arrow); }
+                    .node {
+                      fill: rgba(72, 138, 188, 0.9);
+                      stroke: rgba(230, 242, 255, 0.9);
+                      stroke-width: 2;
+                    }
+                    .label {
+                      fill: #ffffff;
+                      font-family: Arial, Helvetica, sans-serif;
+                      font-size: 15px;
+                      font-weight: 700;
+                    }
+                    .sub {
+                      fill: rgba(230, 242, 255, 0.92);
+                      font-family: Arial, Helvetica, sans-serif;
+                      font-size: 12px;
+                    }
+                    .line {
+                      stroke: rgba(230, 242, 255, 0.9);
+                      stroke-width: 2.5;
+                      marker-end: url(#arrow);
+                    }
                   </style>
-                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                    <polygon points="0 0, 10 3, 0 6" fill="rgba(230, 242, 255, 0.9)" />
+                  <marker
+                    id="arrow"
+                    markerWidth="10"
+                    markerHeight="10"
+                    refX="9"
+                    refY="3"
+                    orient="auto"
+                  >
+                    <polygon
+                      points="0 0, 10 3, 0 6"
+                      fill="rgba(230, 242, 255, 0.9)"
+                    />
                   </marker>
                 </defs>
 
-                <rect class="node" x="20" y="120" rx="12" ry="12" width="170" height="85"></rect>
-                <text class="label" x="105" y="155" text-anchor="middle">Data Sources</text>
-                <text class="sub" x="105" y="177" text-anchor="middle">Odds APIs / Feeds</text>
+                <rect
+                  class="node"
+                  x="20"
+                  y="120"
+                  rx="12"
+                  ry="12"
+                  width="170"
+                  height="85"
+                ></rect>
+                <text class="label" x="105" y="155" text-anchor="middle">
+                  Data Sources
+                </text>
+                <text class="sub" x="105" y="177" text-anchor="middle">
+                  Odds APIs / Feeds
+                </text>
 
-                <rect class="node" x="235" y="120" rx="12" ry="12" width="170" height="85"></rect>
-                <text class="label" x="320" y="155" text-anchor="middle">Ingestion</text>
-                <text class="sub" x="320" y="177" text-anchor="middle">Lambda + EventBridge</text>
+                <rect
+                  class="node"
+                  x="235"
+                  y="120"
+                  rx="12"
+                  ry="12"
+                  width="170"
+                  height="85"
+                ></rect>
+                <text class="label" x="320" y="155" text-anchor="middle">
+                  Ingestion
+                </text>
+                <text class="sub" x="320" y="177" text-anchor="middle">
+                  Lambda + EventBridge
+                </text>
 
-                <rect class="node" x="450" y="120" rx="12" ry="12" width="170" height="85"></rect>
-                <text class="label" x="535" y="155" text-anchor="middle">Raw Storage</text>
-                <text class="sub" x="535" y="177" text-anchor="middle">S3 (raw zone)</text>
+                <rect
+                  class="node"
+                  x="450"
+                  y="120"
+                  rx="12"
+                  ry="12"
+                  width="170"
+                  height="85"
+                ></rect>
+                <text class="label" x="535" y="155" text-anchor="middle">
+                  Raw Storage
+                </text>
+                <text class="sub" x="535" y="177" text-anchor="middle">
+                  S3 (raw zone)
+                </text>
 
-                <rect class="node" x="665" y="120" rx="12" ry="12" width="170" height="85"></rect>
-                <text class="label" x="750" y="155" text-anchor="middle">Transform</text>
-                <text class="sub" x="750" y="177" text-anchor="middle">Glue / Lambda</text>
+                <rect
+                  class="node"
+                  x="665"
+                  y="120"
+                  rx="12"
+                  ry="12"
+                  width="170"
+                  height="85"
+                ></rect>
+                <text class="label" x="750" y="155" text-anchor="middle">
+                  Transform
+                </text>
+                <text class="sub" x="750" y="177" text-anchor="middle">
+                  Glue / Lambda
+                </text>
 
-                <rect class="node" x="450" y="235" rx="12" ry="12" width="170" height="75"></rect>
-                <text class="label" x="535" y="265" text-anchor="middle">Curated Data</text>
-                <text class="sub" x="535" y="286" text-anchor="middle">S3 + DynamoDB</text>
+                <rect
+                  class="node"
+                  x="450"
+                  y="235"
+                  rx="12"
+                  ry="12"
+                  width="170"
+                  height="75"
+                ></rect>
+                <text class="label" x="535" y="265" text-anchor="middle">
+                  Curated Data
+                </text>
+                <text class="sub" x="535" y="286" text-anchor="middle">
+                  S3 + DynamoDB
+                </text>
 
-                <rect class="node" x="880" y="120" rx="12" ry="12" width="80" height="85"></rect>
-                <text class="label" x="920" y="152" text-anchor="middle">API</text>
-                <text class="sub" x="920" y="174" text-anchor="middle">Gateway</text>
+                <rect
+                  class="node"
+                  x="880"
+                  y="120"
+                  rx="12"
+                  ry="12"
+                  width="80"
+                  height="85"
+                ></rect>
+                <text class="label" x="920" y="152" text-anchor="middle">
+                  API
+                </text>
+                <text class="sub" x="920" y="174" text-anchor="middle">
+                  Gateway
+                </text>
 
                 <line class="line" x1="190" y1="162" x2="235" y2="162"></line>
                 <line class="line" x1="405" y1="162" x2="450" y2="162"></line>
@@ -253,32 +345,111 @@
 
             <h3 class="diagram-title">Data Flow Diagram: Processing Stages</h3>
             <div class="diagram-wrap">
-              <svg viewBox="0 0 980 240" width="980" height="240" role="img" aria-label="Data flow diagram">
+              <svg
+                viewBox="0 0 980 240"
+                width="980"
+                height="240"
+                role="img"
+                aria-label="Data flow diagram"
+              >
                 <defs>
                   <style>
-                    .stage { fill: rgba(95, 168, 212, 0.9); stroke: rgba(255, 255, 255, 0.9); stroke-width: 2; }
-                    .txt { fill: #ffffff; font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; }
-                    .flow { stroke: rgba(230, 242, 255, 0.9); stroke-width: 2.5; marker-end: url(#arrow2); }
+                    .stage {
+                      fill: rgba(95, 168, 212, 0.9);
+                      stroke: rgba(255, 255, 255, 0.9);
+                      stroke-width: 2;
+                    }
+                    .txt {
+                      fill: #ffffff;
+                      font-family: Arial, Helvetica, sans-serif;
+                      font-size: 14px;
+                      font-weight: 700;
+                    }
+                    .flow {
+                      stroke: rgba(230, 242, 255, 0.9);
+                      stroke-width: 2.5;
+                      marker-end: url(#arrow2);
+                    }
                   </style>
-                  <marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                    <polygon points="0 0, 10 3, 0 6" fill="rgba(230, 242, 255, 0.9)" />
+                  <marker
+                    id="arrow2"
+                    markerWidth="10"
+                    markerHeight="10"
+                    refX="9"
+                    refY="3"
+                    orient="auto"
+                  >
+                    <polygon
+                      points="0 0, 10 3, 0 6"
+                      fill="rgba(230, 242, 255, 0.9)"
+                    />
                   </marker>
                 </defs>
 
-                <rect class="stage" x="20" y="80" rx="10" ry="10" width="170" height="80"></rect>
-                <text class="txt" x="105" y="127" text-anchor="middle">1. Collect</text>
+                <rect
+                  class="stage"
+                  x="20"
+                  y="80"
+                  rx="10"
+                  ry="10"
+                  width="170"
+                  height="80"
+                ></rect>
+                <text class="txt" x="105" y="127" text-anchor="middle">
+                  1. Collect
+                </text>
 
-                <rect class="stage" x="215" y="80" rx="10" ry="10" width="170" height="80"></rect>
-                <text class="txt" x="300" y="127" text-anchor="middle">2. Validate</text>
+                <rect
+                  class="stage"
+                  x="215"
+                  y="80"
+                  rx="10"
+                  ry="10"
+                  width="170"
+                  height="80"
+                ></rect>
+                <text class="txt" x="300" y="127" text-anchor="middle">
+                  2. Validate
+                </text>
 
-                <rect class="stage" x="410" y="80" rx="10" ry="10" width="170" height="80"></rect>
-                <text class="txt" x="495" y="127" text-anchor="middle">3. Normalize</text>
+                <rect
+                  class="stage"
+                  x="410"
+                  y="80"
+                  rx="10"
+                  ry="10"
+                  width="170"
+                  height="80"
+                ></rect>
+                <text class="txt" x="495" y="127" text-anchor="middle">
+                  3. Normalize
+                </text>
 
-                <rect class="stage" x="605" y="80" rx="10" ry="10" width="170" height="80"></rect>
-                <text class="txt" x="690" y="127" text-anchor="middle">4. Enrich</text>
+                <rect
+                  class="stage"
+                  x="605"
+                  y="80"
+                  rx="10"
+                  ry="10"
+                  width="170"
+                  height="80"
+                ></rect>
+                <text class="txt" x="690" y="127" text-anchor="middle">
+                  4. Enrich
+                </text>
 
-                <rect class="stage" x="800" y="80" rx="10" ry="10" width="160" height="80"></rect>
-                <text class="txt" x="880" y="127" text-anchor="middle">5. Serve</text>
+                <rect
+                  class="stage"
+                  x="800"
+                  y="80"
+                  rx="10"
+                  ry="10"
+                  width="160"
+                  height="80"
+                ></rect>
+                <text class="txt" x="880" y="127" text-anchor="middle">
+                  5. Serve
+                </text>
 
                 <line class="flow" x1="190" y1="120" x2="215" y2="120"></line>
                 <line class="flow" x1="385" y1="120" x2="410" y2="120"></line>
@@ -290,16 +461,24 @@
             <h3>Live App Endpoint</h3>
             <div class="endpoint-box">
               <strong>Set your app endpoint:</strong>
-              <code id="app-endpoint-display">https://YOUR-APP-ENDPOINT.com</code>
-              <strong style="margin-top: 0.9em; display: block">Set your data API endpoint:</strong>
-              <code id="data-endpoint-display">https://YOUR-DATA-API-ENDPOINT.com/bets</code>
+              <code id="app-endpoint-display"
+                >https://YOUR-APP-ENDPOINT.com</code
+              >
+              <strong style="margin-top: 0.9em; display: block"
+                >Set your data API endpoint:</strong
+              >
+              <code id="data-endpoint-display"
+                >https://YOUR-DATA-API-ENDPOINT.com/bets</code
+              >
               <p class="small-note">
                 The page will fetch pipeline data from the data endpoint below.
                 If unavailable, it falls back to local demo rows.
               </p>
               <ul class="actions">
                 <li>
-                  <a href="#" id="open-live-app-btn" class="button primary">Open Live App</a>
+                  <a href="#" id="open-live-app-btn" class="button primary"
+                    >Open Live App</a
+                  >
                 </li>
               </ul>
               <p id="pipeline-status" class="pipeline-status warn">
@@ -308,45 +487,32 @@
             </div>
 
             <section class="data-section">
-              <h3>SportsBetting Data (Live Page View)</h3>
+              <h3>Today's Games ($10 Moneyline Payouts)</h3>
               <p class="small-note">
-                Pipeline data is loaded from your API on page load. If your API
-                is not ready, local demo rows are shown automatically.
+                Defaults are locked to <code>basketball_ncaab</code> and
+                today's date to prevent user input errors.
               </p>
 
-              <div class="kpi-grid">
-                <div class="kpi">
-                  <span class="kpi-label">Total Bets</span>
-                  <span class="kpi-value" id="kpi-total-bets">0</span>
-                </div>
-                <div class="kpi">
-                  <span class="kpi-label">Win Rate</span>
-                  <span class="kpi-value" id="kpi-win-rate">0%</span>
-                </div>
-                <div class="kpi">
-                  <span class="kpi-label">Units (P/L)</span>
-                  <span class="kpi-value" id="kpi-units">0.00u</span>
-                </div>
-                <div class="kpi">
-                  <span class="kpi-label">ROI</span>
-                  <span class="kpi-value" id="kpi-roi">0%</span>
-                </div>
-              </div>
-
               <div class="data-table-wrap">
-                <table id="bets-table">
+                <table id="games-table">
                   <thead>
                     <tr>
-                      <th>Date</th>
-                      <th>Sport</th>
-                      <th>Bet</th>
-                      <th>Odds</th>
-                      <th>Stake (u)</th>
-                      <th>Result</th>
-                      <th>P/L (u)</th>
+                      <th>Time (UTC)</th>
+                      <th>Away</th>
+                      <th>Home</th>
+                      <th>Away ML</th>
+                      <th>$10 Away Profit</th>
+                      <th>Away Total</th>
+                      <th>Home ML</th>
+                      <th>$10 Home Profit</th>
+                      <th>Home Total</th>
                     </tr>
                   </thead>
-                  <tbody id="bets-table-body"></tbody>
+                  <tbody id="games-table-body">
+                    <tr>
+                      <td colspan="9">Loading games...</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </section>
@@ -372,123 +538,24 @@
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
-      // Replace these values with your deployed URLs.
       const PIPELINE_CONFIG = {
         appEndpoint: "https://YOUR-APP-ENDPOINT.com",
-        dataEndpoint: "https://YOUR-DATA-API-ENDPOINT.com/bets",
+        dataEndpoint: "https://48zz8kcvj8.execute-api.us-east-2.amazonaws.com",
       };
+      const DEFAULT_SPORT = "basketball_ncaab";
+      const STAKE = 10;
 
-      // Fallback demo rows if API is not configured or unavailable.
-      const fallbackBetsData = [
-        {
-          date: "2026-02-08",
-          sport: "NFL",
-          bet: "Chiefs -2.5",
-          odds: "-110",
-          stake: 1.0,
-          result: "Win",
-          plUnits: 0.91,
-        },
-        {
-          date: "2026-02-09",
-          sport: "NBA",
-          bet: "Celtics ML",
-          odds: "-145",
-          stake: 1.5,
-          result: "Loss",
-          plUnits: -1.5,
-        },
-        {
-          date: "2026-02-10",
-          sport: "NCAAB",
-          bet: "Over 143.5",
-          odds: "-108",
-          stake: 1.0,
-          result: "Win",
-          plUnits: 0.93,
-        },
-        {
-          date: "2026-02-11",
-          sport: "NHL",
-          bet: "Rangers ML",
-          odds: "+115",
-          stake: 1.0,
-          result: "Push",
-          plUnits: 0.0,
-        },
-      ];
-
-      function formatNumber(value, digits = 2) {
-        return Number(value).toFixed(digits);
+      function getTodayDateIso() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        return year + "-" + month + "-" + day;
       }
 
-      function normalizeResult(value) {
-        if (!value) return "Pending";
-        const normalized = String(value).toLowerCase();
-        if (normalized === "win" || normalized === "w") return "Win";
-        if (normalized === "loss" || normalized === "l") return "Loss";
-        if (normalized === "push" || normalized === "p") return "Push";
-        return "Pending";
-      }
-
-      function toNumber(value, defaultValue = 0) {
-        const parsed = Number(value);
-        return Number.isFinite(parsed) ? parsed : defaultValue;
-      }
-
-      function calculatePlFromOdds(odds, stake, result) {
-        const normalizedResult = normalizeResult(result);
-        if (normalizedResult === "Push" || normalizedResult === "Pending") {
-          return 0;
-        }
-        if (normalizedResult === "Loss") {
-          return -stake;
-        }
-        const rawOdds = String(odds || "").trim();
-        if (!rawOdds) return 0;
-        const numericOdds = toNumber(rawOdds, 0);
-        if (numericOdds === 0) return 0;
-        if (numericOdds > 0) {
-          return stake * (numericOdds / 100);
-        }
-        return stake * (100 / Math.abs(numericOdds));
-      }
-
-      function normalizeRow(raw) {
-        const date = raw.date || raw.gameDate || raw.eventDate || "N/A";
-        const sport = raw.sport || raw.league || raw.sportName || "N/A";
-        const bet =
-          raw.bet ||
-          raw.market ||
-          raw.selection ||
-          raw.pick ||
-          "N/A";
-        const odds = raw.odds || raw.price || raw.americanOdds || "N/A";
-        const stake = toNumber(raw.stake ?? raw.stakeUnits ?? raw.units, 0);
-        const result = normalizeResult(raw.result || raw.outcome || raw.status);
-        const plUnits =
-          raw.plUnits !== undefined || raw.profitUnits !== undefined
-            ? toNumber(raw.plUnits ?? raw.profitUnits, 0)
-            : calculatePlFromOdds(odds, stake, result);
-
-        return { date, sport, bet, odds, stake, result, plUnits };
-      }
-
-      function extractRows(payload) {
-        if (Array.isArray(payload)) return payload;
-        if (Array.isArray(payload.items)) return payload.items;
-        if (Array.isArray(payload.data)) return payload.data;
-        if (payload.body) {
-          try {
-            const parsedBody = JSON.parse(payload.body);
-            if (Array.isArray(parsedBody)) return parsedBody;
-            if (Array.isArray(parsedBody.items)) return parsedBody.items;
-            if (Array.isArray(parsedBody.data)) return parsedBody.data;
-          } catch (error) {
-            return [];
-          }
-        }
-        return [];
+      function money(value) {
+        if (value === null || value === undefined || value === "") return "-";
+        return "$" + Number(value).toFixed(2);
       }
 
       function setPipelineStatus(message, type) {
@@ -498,110 +565,113 @@
         statusEl.classList.add(type === "ok" ? "ok" : "warn");
       }
 
-      function renderBettingData(rows) {
-        const tbody = document.getElementById("bets-table-body");
-        const totalBetsEl = document.getElementById("kpi-total-bets");
-        const winRateEl = document.getElementById("kpi-win-rate");
-        const unitsEl = document.getElementById("kpi-units");
-        const roiEl = document.getElementById("kpi-roi");
+      function renderGamesRows(games) {
+        const tbody = document.getElementById("games-table-body");
+        if (!games || !games.length) {
+          tbody.innerHTML = "<tr><td colspan='9'>No games found.</td></tr>";
+          return;
+        }
 
-        tbody.innerHTML = "";
-
-        let wins = 0;
-        let gradedBets = 0;
-        let totalStake = 0;
-        let totalPl = 0;
-
-        rows.forEach((row) => {
-          const tr = document.createElement("tr");
-          tr.innerHTML =
-            "<td>" +
-            row.date +
-            "</td><td>" +
-            row.sport +
-            "</td><td>" +
-            row.bet +
-            "</td><td>" +
-            row.odds +
-            "</td><td>" +
-            formatNumber(row.stake) +
-            "</td><td>" +
-            row.result +
-            "</td><td>" +
-            formatNumber(row.plUnits) +
-            "</td>";
-          tbody.appendChild(tr);
-
-          totalStake += Number(row.stake) || 0;
-          totalPl += Number(row.plUnits) || 0;
-          if (row.result === "Win" || row.result === "Loss") {
-            gradedBets += 1;
-          }
-          if (row.result === "Win") {
-            wins += 1;
-          }
-        });
-
-        const winRate = gradedBets > 0 ? (wins / gradedBets) * 100 : 0;
-        const roi = totalStake > 0 ? (totalPl / totalStake) * 100 : 0;
-
-        totalBetsEl.textContent = rows.length;
-        winRateEl.textContent = formatNumber(winRate, 1) + "%";
-        unitsEl.textContent = formatNumber(totalPl) + "u";
-        roiEl.textContent = formatNumber(roi, 1) + "%";
+        tbody.innerHTML = games
+          .map(function (g) {
+            return (
+              "<tr>" +
+              "<td>" +
+              (g.commence_time || "-") +
+              "</td>" +
+              "<td>" +
+              (g.away_team || "-") +
+              "</td>" +
+              "<td>" +
+              (g.home_team || "-") +
+              "</td>" +
+              "<td>" +
+              (g.moneyline_away ?? "-") +
+              "</td>" +
+              "<td>" +
+              money(g.payouts && g.payouts.away && g.payouts.away.profit) +
+              "</td>" +
+              "<td>" +
+              money(g.payouts && g.payouts.away && g.payouts.away.total) +
+              "</td>" +
+              "<td>" +
+              (g.moneyline_home ?? "-") +
+              "</td>" +
+              "<td>" +
+              money(g.payouts && g.payouts.home && g.payouts.home.profit) +
+              "</td>" +
+              "<td>" +
+              money(g.payouts && g.payouts.home && g.payouts.home.total) +
+              "</td>" +
+              "</tr>"
+            );
+          })
+          .join("");
       }
 
       async function loadPipelineData() {
         const appDisplay = document.getElementById("app-endpoint-display");
         const dataDisplay = document.getElementById("data-endpoint-display");
         const appButton = document.getElementById("open-live-app-btn");
+        const tbody = document.getElementById("games-table-body");
+        const today = getTodayDateIso();
 
         appDisplay.textContent = PIPELINE_CONFIG.appEndpoint;
-        dataDisplay.textContent = PIPELINE_CONFIG.dataEndpoint;
         appButton.href = PIPELINE_CONFIG.appEndpoint;
+        if (PIPELINE_CONFIG.appEndpoint.includes("YOUR-APP-ENDPOINT")) {
+          appButton.href = "#";
+        }
 
-        const endpoint = PIPELINE_CONFIG.dataEndpoint || "";
-        const isPlaceholder = endpoint.includes("YOUR-DATA-API-ENDPOINT");
+        const base = (PIPELINE_CONFIG.dataEndpoint || "").replace(/\/+$/, "");
+        const isPlaceholder = base.includes("YOUR-DATA-API-ENDPOINT");
+        const query =
+          "sport=" +
+          encodeURIComponent(DEFAULT_SPORT) +
+          "&date=" +
+          encodeURIComponent(today) +
+          "&stake=" +
+          encodeURIComponent(STAKE);
+        const url = base + "/games?" + query;
+        dataDisplay.textContent = url;
 
         if (isPlaceholder) {
           setPipelineStatus(
-            "Using fallback sample data. Update PIPELINE_CONFIG.dataEndpoint to connect pipeline output.",
+            "Set PIPELINE_CONFIG.dataEndpoint to your API base URL.",
             "warn",
           );
-          renderBettingData(fallbackBetsData);
+          tbody.innerHTML = "<tr><td colspan='9'>Endpoint not configured.</td></tr>";
           return;
         }
 
+        tbody.innerHTML = "<tr><td colspan='9'>Loading games...</td></tr>";
+
         try {
-          const response = await fetch(endpoint, {
+          const response = await fetch(url, {
             method: "GET",
             headers: { Accept: "application/json" },
           });
 
-          if (!response.ok) {
-            throw new Error("HTTP " + response.status);
-          }
-
           const payload = await response.json();
-          const rows = extractRows(payload).map(normalizeRow);
-
-          if (!rows.length) {
-            throw new Error("No rows returned from pipeline endpoint.");
+          if (!response.ok) {
+            throw new Error(payload.message || "HTTP " + response.status);
           }
 
-          renderBettingData(rows);
+          const games = Array.isArray(payload.games) ? payload.games : [];
+          renderGamesRows(games);
           setPipelineStatus(
-            "Pipeline data loaded successfully from API endpoint.",
+            "Loaded " +
+              games.length +
+              " " +
+              DEFAULT_SPORT +
+              " games for " +
+              today +
+              ".",
             "ok",
           );
         } catch (error) {
-          renderBettingData(fallbackBetsData);
-          setPipelineStatus(
-            "Pipeline fetch failed (" +
-              error.message +
-              "). Showing fallback sample data.",
-            "warn",
-          );
+          tbody.innerHTML =
+            "<tr><td colspan='9'>Fetch error: " + error.message + "</td></tr>";
+          setPipelineStatus("Pipeline fetch failed (" + error.message + ").", "warn");
         }
       }
 
