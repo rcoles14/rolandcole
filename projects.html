@@ -558,6 +558,18 @@
         return "$" + Number(value).toFixed(2);
       }
 
+      function formatLocalGameTime(utcValue) {
+        if (!utcValue) return "-";
+        const date = new Date(utcValue);
+        if (Number.isNaN(date.getTime())) return "-";
+        return date.toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+          timeZoneName: "short",
+        });
+      }
+
       function setPipelineStatus(message, type) {
         const statusEl = document.getElementById("pipeline-status");
         statusEl.textContent = message;
@@ -577,7 +589,7 @@
             return (
               "<tr>" +
               "<td>" +
-              (g.commence_time || "-") +
+              formatLocalGameTime(g.commence_time) +
               "</td>" +
               "<td>" +
               (g.away_team || "-") +
