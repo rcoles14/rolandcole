@@ -19,6 +19,14 @@
       ><link rel="stylesheet" href="assets/css/noscript.css"
     /></noscript>
     <style>
+      body,
+      input,
+      select,
+      textarea,
+      button {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
       #header {
         background-color: #2c6f9c;
       }
@@ -173,6 +181,60 @@
         padding: 1.2em;
       }
 
+      .demo-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8em;
+        margin-top: 0.85em;
+        margin-bottom: 0.65em;
+        align-items: center;
+      }
+
+      .demo-field {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45em;
+        background: rgba(210, 230, 255, 0.1);
+        border: solid 1px rgba(210, 230, 255, 0.24);
+        border-radius: 0.4em;
+        padding: 0.45em 0.55em;
+        min-height: 2.7em;
+        line-height: 1;
+      }
+
+      .demo-label {
+        display: inline-flex;
+        align-items: center;
+        color: rgba(230, 242, 255, 0.88);
+        font-size: 0.8em;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        line-height: 1;
+        margin: 0;
+      }
+
+      .demo-input {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(15, 38, 62, 0.6);
+        border: solid 1px rgba(210, 230, 255, 0.24);
+        color: #ffffff;
+        border-radius: 0.3em;
+        height: 2.1em;
+        line-height: 1.1;
+        padding: 0 0.5em;
+        font-size: 0.85em;
+        margin: 0;
+        vertical-align: middle;
+      }
+
+      select.demo-input,
+      input.demo-input {
+        display: inline-block;
+      }
+
       .games-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -232,6 +294,19 @@
         font-size: 0.85em;
       }
 
+      .stake-badge {
+        display: inline-block;
+        margin-bottom: 0.75em;
+        background: rgba(177, 245, 204, 0.18);
+        border: solid 1px rgba(177, 245, 204, 0.45);
+        border-radius: 999px;
+        color: rgba(225, 255, 236, 0.98);
+        padding: 0.18em 0.6em;
+        font-size: 0.75em;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
       .games-empty {
         grid-column: 1 / -1;
         background: rgba(15, 38, 62, 0.55);
@@ -274,7 +349,7 @@
           <h1 class="major">Cloud Projects</h1>
 
           <article class="project-card">
-            <h2>SportsBetting Data Pipeline</h2>
+            <h2>Sports Odds Data Pipeline</h2>
             <p>
               I built an end-to-end, serverless AWS pipeline that ingests
               sportsbook odds, normalizes and validates records, stores both raw
@@ -340,15 +415,9 @@
                 <div class="arch-break"></div>
 
                 <div class="arch-node">
-                  <span class="arch-logo">DDB</span>
-                  <div class="arch-title">DynamoDB</div>
-                  <div class="arch-sub">sport_date + game_id</div>
-                </div>
-                <div class="arch-arrow">&rarr;</div>
-                <div class="arch-node">
-                  <span class="arch-logo">L</span>
-                  <div class="arch-title">Lambda</div>
-                  <div class="arch-sub">calculate today's games + odds</div>
+                  <span class="arch-logo">CF</span>
+                  <div class="arch-title">CloudFront + S3</div>
+                  <div class="arch-sub">projects.html table</div>
                 </div>
                 <div class="arch-arrow">&rarr;</div>
                 <div class="arch-node">
@@ -358,21 +427,54 @@
                 </div>
                 <div class="arch-arrow">&rarr;</div>
                 <div class="arch-node">
-                  <span class="arch-logo">CF</span>
-                  <div class="arch-title">CloudFront + S3</div>
-                  <div class="arch-sub">projects.html table</div>
+                  <span class="arch-logo">L</span>
+                  <div class="arch-title">Lambda</div>
+                  <div class="arch-sub">calculate today's games + odds</div>
+                </div>
+                <div class="arch-arrow">&rarr;</div>
+                <div class="arch-node">
+                  <span class="arch-logo">DDB</span>
+                  <div class="arch-title">DynamoDB</div>
+                  <div class="arch-sub">sport_date + game_id</div>
                 </div>
               </div>
             </div>
 
             <section class="data-section">
-              <h3>Live Demo: Today's Games + $10 Bet</h3>
+              <h3>Live Demo: Today's Games + Custom Bet</h3>
               <p class="small-note">
-                This table is generated in real-time from my API (API Gateway +
-                Lambda) querying DynamoDB for today's slate. Payouts are
-                computed from American moneyline odds: profit + total return on
-                a $10 stake.
+                This table is generated dynamically from my API (API Gateway +
+                Lambda) querying DynamoDB for today’s slate.
               </p>
+              <div class="demo-controls">
+                <div class="demo-field">
+                  <label class="demo-label" for="demo-sport">Sport</label>
+                  <select id="demo-sport" class="demo-input" disabled>
+                    <option value="basketball_ncaab" selected>NCAAB</option>
+                  </select>
+                </div>
+                <div class="demo-field">
+                  <label class="demo-label" for="demo-date">Date</label>
+                  <input
+                    id="demo-date"
+                    type="date"
+                    class="demo-input"
+                    min="2026-02-14"
+                  />
+                </div>
+                <div class="demo-field">
+                  <label class="demo-label" for="demo-stake">Stake ($)</label>
+                  <input
+                    id="demo-stake"
+                    type="number"
+                    class="demo-input"
+                    min="1"
+                    step="1"
+                    value="10"
+                  />
+                </div>
+                <button id="demo-apply" class="button small">Apply</button>
+              </div>
               <p class="small-note">All times are in your local timezone.</p>
               <p id="pipeline-status" class="pipeline-status warn">
                 Loading live demo data...
@@ -408,7 +510,9 @@
       const PIPELINE_CONFIG = {
         dataEndpoint: "https://48zz8kcvj8.execute-api.us-east-2.amazonaws.com",
       };
-      const STAKE = 10;
+      const DEFAULT_SPORT = "basketball_ncaab";
+      const DEFAULT_STAKE = 10;
+      const MIN_ALLOWED_DATE = "2026-02-14";
 
       function getTodayDateIso() {
         const now = new Date();
@@ -492,7 +596,7 @@
         el.textContent = "Last updated: " + formatLocalDateTime(value);
       }
 
-      function renderGamesRows(games) {
+      function renderGamesRows(games, stakeAmount) {
         const list = document.getElementById("games-list");
         if (!games || !games.length) {
           list.innerHTML = "<div class='games-empty'>No games found.</div>";
@@ -510,6 +614,9 @@
               (g.home_team || "-") +
               " vs " +
               (g.away_team || "-") +
+              "</div>" +
+              "<div class='stake-badge'>Stake: $" +
+              money(stakeAmount).replace("$", "") +
               "</div>" +
               "<div class='bet-options'>" +
               "<div class='bet-box'>" +
@@ -549,17 +656,34 @@
 
       async function loadPipelineData() {
         const list = document.getElementById("games-list");
-        const today = getTodayDateIso();
+        const sportEl = document.getElementById("demo-sport");
+        const dateEl = document.getElementById("demo-date");
+        const stakeEl = document.getElementById("demo-stake");
+        let today = dateEl && dateEl.value ? dateEl.value : getTodayDateIso();
+        if (today < MIN_ALLOWED_DATE) {
+          today = MIN_ALLOWED_DATE;
+          if (dateEl) dateEl.value = MIN_ALLOWED_DATE;
+        }
+        const selectedSport =
+          sportEl && sportEl.value ? sportEl.value : DEFAULT_SPORT;
+        let selectedStake = Number(stakeEl && stakeEl.value);
+        if (!Number.isFinite(selectedStake) || selectedStake <= 0) {
+          selectedStake = DEFAULT_STAKE;
+          if (stakeEl) stakeEl.value = String(DEFAULT_STAKE);
+        }
         const formattedToday = formatLongDateWithOrdinal(today);
         setLastUpdated(null);
 
         const base = (PIPELINE_CONFIG.dataEndpoint || "").replace(/\/+$/, "");
         const isPlaceholder = base.includes("YOUR-DATA-API-ENDPOINT");
         const query =
+          "sport=" +
+          encodeURIComponent(selectedSport) +
+          "&" +
           "date=" +
           encodeURIComponent(today) +
           "&stake=" +
-          encodeURIComponent(STAKE);
+          encodeURIComponent(selectedStake);
         const url = base + "/games?" + query;
 
         if (isPlaceholder) {
@@ -599,11 +723,13 @@
             return gameDate === today;
           });
 
-          renderGamesRows(gamesForDay);
+          renderGamesRows(gamesForDay, selectedStake);
           setLastUpdated(apiUpdatedAt || new Date().toISOString());
           setPipelineStatus(
             "Loaded " +
               gamesForDay.length +
+              " " +
+              selectedSport +
               " games for " +
               formattedToday +
               ".",
@@ -620,6 +746,36 @@
         }
       }
 
+      function initializeDemoControls() {
+        const sportEl = document.getElementById("demo-sport");
+        const dateEl = document.getElementById("demo-date");
+        const stakeEl = document.getElementById("demo-stake");
+        const applyEl = document.getElementById("demo-apply");
+        if (sportEl && !sportEl.value) {
+          sportEl.value = DEFAULT_SPORT;
+        }
+        if (dateEl) {
+          dateEl.min = MIN_ALLOWED_DATE;
+          if (!dateEl.value) {
+            const today = getTodayDateIso();
+            dateEl.value = today < MIN_ALLOWED_DATE ? MIN_ALLOWED_DATE : today;
+          } else if (dateEl.value < MIN_ALLOWED_DATE) {
+            dateEl.value = MIN_ALLOWED_DATE;
+          }
+        }
+        if (stakeEl && !stakeEl.value) {
+          stakeEl.value = String(DEFAULT_STAKE);
+        }
+
+        if (applyEl) {
+          applyEl.addEventListener("click", function (event) {
+            event.preventDefault();
+            loadPipelineData();
+          });
+        }
+      }
+
+      initializeDemoControls();
       loadPipelineData();
     </script>
   </body>
