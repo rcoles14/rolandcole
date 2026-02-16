@@ -7,7 +7,11 @@
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
-    <link rel="icon" type="image/png" href="assets/images/favicon-rcs.png?v=2" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/images/favicon-rcs.png?v=2"
+    />
     <link rel="shortcut icon" href="assets/images/favicon-rcs.png?v=2" />
     <link rel="apple-touch-icon" href="assets/images/favicon-rcs.png?v=2" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -29,7 +33,7 @@
 
       .bbq-gallery-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.5em;
       }
 
@@ -37,18 +41,36 @@
         background: rgba(210, 230, 255, 0.08);
         border: solid 1px rgba(210, 230, 255, 0.25);
         border-radius: 0.45em;
-        overflow: hidden;
+        padding: 1em;
       }
 
-      .bbq-card img {
+      .bbq-card h3 {
+        margin: 0 0 0.65em 0;
+        font-size: 1.05em;
+      }
+
+      .bbq-photo-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65em;
+      }
+
+      .bbq-photo-grid img {
         width: 100%;
-        height: 17em;
+        height: 11.5em;
         object-fit: cover;
+        border-radius: 0.35em;
         display: block;
+        cursor: pointer;
+        transition: transform 0.2s ease;
       }
 
-      .bbq-card figcaption {
-        padding: 1em 1.1em;
+      .bbq-photo-grid img:hover {
+        transform: scale(1.02);
+      }
+
+      .bbq-card p {
+        margin: 0.85em 0 0 0;
         color: rgba(230, 242, 255, 0.9);
         font-size: 0.9em;
       }
@@ -58,15 +80,105 @@
         font-size: 0.95em;
       }
 
+      .bbq-lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 16, 24, 0.92);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        padding: 1.5em;
+      }
+
+      .bbq-lightbox.is-open {
+        display: flex;
+      }
+
+      .bbq-lightbox-content {
+        width: min(94vw, 980px);
+      }
+
+      .bbq-lightbox-image-wrap {
+        position: relative;
+        overflow: visible;
+      }
+
+      .bbq-lightbox img {
+        width: 100%;
+        max-height: 75vh;
+        object-fit: contain;
+        border-radius: 0.45em;
+        display: block;
+      }
+
+      .bbq-lightbox-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 0;
+        border-radius: 0.4em;
+        background: rgba(210, 230, 255, 0.14);
+        color: #ffffff;
+        font-size: 1em;
+        line-height: 1;
+        width: 1.75em;
+        height: 1.75em;
+        cursor: pointer;
+      }
+
+      .bbq-lightbox-btn.prev {
+        left: -2.3em;
+      }
+
+      .bbq-lightbox-btn.next {
+        right: -2.3em;
+      }
+
+      .bbq-lightbox-close {
+        position: absolute;
+        top: -0.9em;
+        right: -0.9em;
+        border: 0;
+        border-radius: 0.4em;
+        background: rgba(185, 30, 30, 0.42);
+        color: #ffffff;
+        font-size: 1em;
+        line-height: 1;
+        width: 1.75em;
+        height: 1.75em;
+        cursor: pointer;
+      }
+
+      .bbq-lightbox-meta {
+        margin-top: 0.7em;
+        font-size: 0.9em;
+        color: rgba(230, 242, 255, 0.9);
+        text-align: center;
+      }
+
       @media screen and (max-width: 980px) {
         .bbq-gallery-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: 1fr;
         }
       }
 
       @media screen and (max-width: 736px) {
-        .bbq-gallery-grid {
+        .bbq-photo-grid {
           grid-template-columns: 1fr;
+        }
+
+        .bbq-lightbox-btn.prev {
+          left: -1.7em;
+        }
+
+        .bbq-lightbox-btn.next {
+          right: -1.7em;
+        }
+
+        .bbq-lightbox-close {
+          top: -0.8em;
+          right: -0.3em;
         }
       }
     </style>
@@ -87,47 +199,230 @@
       <section id="main" class="wrapper style2">
         <div class="inner">
           <h1 class="major">BBQ Gallery</h1>
-          <p>
-            A few cooks I am proud of. Swap any image by replacing the
-            <code>src</code> path in each card.
-          </p>
-          <p class="bbq-note">
-            Image folder suggestion: <code>assets/images/bbq/</code>
-          </p>
-
+          <p>A few cooks I am proud of.</p>
           <div class="bbq-gallery-grid">
-            <figure class="bbq-card">
-              <img src="assets/images/bbqpic.jpeg" alt="Smoked brisket slices" />
-              <figcaption>Smoked brisket with a deep bark and clean slices.</figcaption>
-            </figure>
+            <article class="bbq-card">
+              <h3>Beef Cheek</h3>
+              <div class="bbq-photo-grid">
+                <img
+                  src="assets/images/food/IMG_8165.JPEG"
+                  alt="Beef Cheek"
+                  data-cook="Beef Cheek Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_0622.JPEG"
+                  alt="Sliced Beef Cheek"
+                  data-cook="Beef Cheek Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_8169.JPEG"
+                  alt="Beef Cheek plated"
+                  data-cook="Beef Cheek Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_8178.JPEG"
+                  alt="Beef Cheek shredded to make barbacoa tacos"
+                  data-cook="Beef Cheek Cook"
+                />
+              </div>
+              <p>
+                Beef cheek smoked on an offset and finished in a tallow confit
+                for ultimate tenderness. Shredded the leftovers for barbacoa
+                tacos. This was my first time cooking beef cheek and it turned
+                out amazing.
+              </p>
+            </article>
 
-            <figure class="bbq-card">
-              <img src="assets/images/bbqpic.jpeg" alt="BBQ ribs plated" />
-              <figcaption>Competition-style ribs with a glossy finish.</figcaption>
-            </figure>
+            <article class="bbq-card">
+              <h3>Brisket</h3>
+              <div class="bbq-photo-grid">
+                <img
+                  src="assets/images/food/IMG_6513.JPEG"
+                  alt="Brisket slice"
+                  data-cook="Brisket Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_6514.JPEG"
+                  alt="Sliced Brisket"
+                  data-cook="Brisket Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_6515.JPEG"
+                  alt="Tender Brisket"
+                  data-cook="Brisket Cook"
+                />
+              </div>
+              <p>
+                Small brisket flat I made when my wife was out of town. She
+                really missed out. Cooked on a pellet grill with post oak wood.
+              </p>
+            </article>
 
-            <figure class="bbq-card">
-              <img src="assets/images/bbqpic.jpeg" alt="Pulled pork sandwich" />
-              <figcaption>Pulled pork after a low and slow overnight cook.</figcaption>
-            </figure>
+            <article class="bbq-card">
+              <h3>Pastrami</h3>
+              <div class="bbq-photo-grid">
+                <img
+                  src="assets/images/food/IMG_6100.JPEG"
+                  alt="Pastrami sliced"
+                  data-cook="Pastrami Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_6140.JPEG"
+                  alt="Pastrami"
+                  data-cook="Pastrami Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_6108.JPEG"
+                  alt="Pastrami"
+                  data-cook="Pastrami Cook"
+                />
+              </div>
+              <p>
+                Brisket brined for 7 days and smoked on a pellet grill. Sliced
+                and served on Rye with swiss cheese and russian dressing. This
+                is a March favorite.
+              </p>
+            </article>
 
-            <figure class="bbq-card">
-              <img src="assets/images/bbqpic.jpeg" alt="Smoked chicken quarters" />
-              <figcaption>Chicken quarters with crisp skin and balanced smoke.</figcaption>
-            </figure>
+            <article class="bbq-card">
+              <h3>Beef Ribs</h3>
+              <div class="bbq-photo-grid">
+                <img
+                  src="assets/images/food/IMG_7127.JPEG"
+                  alt="Beef rib slice"
+                  data-cook="Beef Ribs Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_7128.JPEG"
+                  alt="Beef ribs after wrap"
+                  data-cook="Beef Ribs Cook"
+                />
+              </div>
+              <p>
+                The mighty Dino Rib. Thick, juicy, and perfect bark. Cooked on a
+                pellet grill.
+              </p>
+            </article>
 
-            <figure class="bbq-card">
-              <img src="assets/images/bbqpic.jpeg" alt="Smoked sausage platter" />
-              <figcaption>Homemade sausage links and fresh sides.</figcaption>
-            </figure>
+            <article class="bbq-card">
+              <h3>Direct Heat Chicken</h3>
+              <div class="bbq-photo-grid">
+                <img
+                  src="assets/images/food/IMG_8133.JPEG"
+                  alt="Smoked chicken quarter"
+                  data-cook="Direct Heat Chicken Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_0512.JPEG"
+                  alt="5 smoked chicken quarters"
+                  data-cook="Direct Heat Chicken Cook"
+                />
+              </div>
+              <p>
+                Nothing beats the crispy skin and juicy meat of chicken cooked
+                over direct heat. This was cooked over coals with some hickory
+                chunks.
+              </p>
+            </article>
 
-            <figure class="bbq-card">
-              <img src="assets/images/bbqpic.jpeg" alt="BBQ tray with sides" />
-              <figcaption>Full tray build with brisket, ribs, and classic sides.</figcaption>
-            </figure>
+            <article class="bbq-card">
+              <h3>Pulled Pork</h3>
+              <div class="bbq-photo-grid">
+                <img
+                  src="assets/images/food/IMG_8053.JPEG"
+                  alt="Pulled Pork in smoker"
+                  data-cook="Pulled Pork Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_0343.JPEG"
+                  alt="Pulled Pork tacos"
+                  data-cook="Pulled Pork Cook"
+                />
+              </div>
+              <p>
+                Mexican-style pulled pork tacos with a tangy jalepeno ranch,
+                cooked low and slow on an offset smoker. This was my first cook
+                on an offset smoker.
+              </p>
+            </article>
+
+            <article class="bbq-card">
+              <h3>Thanksgiving Turkey</h3>
+              <div class="bbq-photo-grid">
+                <img
+                  src="assets/images/food/IMG_3544.JPEG"
+                  alt="Thanksgiving Turkey in smoker"
+                  data-cook="Thanksgiving Turkey Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_9364.JPEG"
+                  alt="Thanksgiving Turkey"
+                  data-cook="Thanksgiving Turkey Cook"
+                />
+              </div>
+              <p>
+                A few of my thanksgiving turkeys cooked on the pellet grill. The
+                first one was a 14lb bird and the second I decided to just do
+                sliced breasts, similar to how traditional Texas BBQ joints do
+                turkey.
+              </p>
+            </article>
+
+            <article class="bbq-card">
+              <h3>Chili</h3>
+              <div class="bbq-photo-grid">
+                <img
+                  src="assets/images/food/IMG_7011.JPEG"
+                  alt="Chili in smoker"
+                  data-cook="Chili Cook"
+                />
+                <img
+                  src="assets/images/food/IMG_7018.JPEG"
+                  alt="Chili"
+                  data-cook="Chili Cook"
+                />
+              </div>
+              <p>
+                The ward cookoff championship winning chili. It's a secret
+                recipe ;) Texans beware, it has beans.
+              </p>
+            </article>
           </div>
         </div>
       </section>
+    </div>
+
+    <div class="bbq-lightbox" id="bbq-lightbox" aria-hidden="true">
+      <div class="bbq-lightbox-content">
+        <div class="bbq-lightbox-image-wrap">
+          <button
+            type="button"
+            class="bbq-lightbox-close"
+            id="bbq-lightbox-close"
+            aria-label="Close gallery"
+          >
+            &times;
+          </button>
+          <button
+            type="button"
+            class="bbq-lightbox-btn prev"
+            id="bbq-lightbox-prev"
+            aria-label="Previous image"
+          >
+            &#10094;
+          </button>
+          <img id="bbq-lightbox-image" src="" alt="" />
+          <button
+            type="button"
+            class="bbq-lightbox-btn next"
+            id="bbq-lightbox-next"
+            aria-label="Next image"
+          >
+            &#10095;
+          </button>
+        </div>
+        <p class="bbq-lightbox-meta" id="bbq-lightbox-meta"></p>
+      </div>
     </div>
 
     <footer id="footer" class="wrapper alt">
@@ -146,6 +441,85 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+      (function () {
+        var lightbox = document.getElementById("bbq-lightbox");
+        var lightboxImage = document.getElementById("bbq-lightbox-image");
+        var lightboxMeta = document.getElementById("bbq-lightbox-meta");
+        var closeBtn = document.getElementById("bbq-lightbox-close");
+        var prevBtn = document.getElementById("bbq-lightbox-prev");
+        var nextBtn = document.getElementById("bbq-lightbox-next");
+        var currentPhotos = [];
+        var currentIndex = 0;
+
+        function renderLightbox() {
+          var photo = currentPhotos[currentIndex];
+          if (!photo) return;
+          lightboxImage.src = photo.src;
+          lightboxImage.alt = photo.alt || "";
+          var cookName = photo.dataset.cook || "Cook";
+          lightboxMeta.textContent =
+            cookName +
+            " - " +
+            (currentIndex + 1) +
+            " / " +
+            currentPhotos.length;
+        }
+
+        function openLightbox(photos, index) {
+          currentPhotos = photos;
+          currentIndex = index;
+          renderLightbox();
+          lightbox.classList.add("is-open");
+          lightbox.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeLightbox() {
+          lightbox.classList.remove("is-open");
+          lightbox.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+        }
+
+        function showNext() {
+          if (!currentPhotos.length) return;
+          currentIndex = (currentIndex + 1) % currentPhotos.length;
+          renderLightbox();
+        }
+
+        function showPrev() {
+          if (!currentPhotos.length) return;
+          currentIndex =
+            (currentIndex - 1 + currentPhotos.length) % currentPhotos.length;
+          renderLightbox();
+        }
+
+        document
+          .querySelectorAll(".bbq-card .bbq-photo-grid")
+          .forEach(function (grid) {
+            var photos = Array.from(grid.querySelectorAll("img"));
+            photos.forEach(function (photo, index) {
+              photo.addEventListener("click", function () {
+                openLightbox(photos, index);
+              });
+            });
+          });
+
+        closeBtn.addEventListener("click", closeLightbox);
+        nextBtn.addEventListener("click", showNext);
+        prevBtn.addEventListener("click", showPrev);
+
+        lightbox.addEventListener("click", function (event) {
+          if (event.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (!lightbox.classList.contains("is-open")) return;
+          if (event.key === "Escape") closeLightbox();
+          if (event.key === "ArrowRight") showNext();
+          if (event.key === "ArrowLeft") showPrev();
+        });
+      })();
+    </script>
   </body>
 </html>
-
