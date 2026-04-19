@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <title>14 On / 7 Off Schedule Builder</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --panel: rgba(255, 252, 247, 0.95);
+        --ink: #1e2430;
+        --muted: #5f6877;
+        --accent: #0e7490;
+        --accent-dark: #164e63;
+        --line: rgba(30, 36, 48, 0.12);
+        --good: #d7f3e3;
+        --off: #fde2e2;
+        --shadow: 0 18px 45px rgba(17, 24, 39, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(14, 116, 144, 0.18), transparent 35%),
+          linear-gradient(135deg, #f7f0e4 0%, #ecf7f7 100%);
+      }
+
+      .page {
+        width: min(1180px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 2rem 0 3rem;
+      }
+
+      .hero,
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.78rem;
+        color: var(--accent-dark);
+        font-weight: 700;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        line-height: 1;
+      }
+
+      .hero p,
+      .panel p,
+      .rule-list li,
+      label,
+      td,
+      th {
+        color: var(--muted);
+      }
+
+      .hero-copy {
+        max-width: 760px;
+        margin-top: 1rem;
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .legend {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.9rem;
+        margin-top: 1.5rem;
+      }
+
+      .legend-card,
+      .stat-card {
+        padding: 1rem 1.1rem;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+      }
+
+      .legend-card strong,
+      .stat-card strong {
+        display: block;
+        color: var(--ink);
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 340px minmax(0, 1fr);
+        gap: 1.5rem;
+      }
+
+      .panel {
+        padding: 1.5rem;
+      }
+
+      .controls {
+        position: sticky;
+        top: 1rem;
+        align-self: start;
+      }
+
+      .field {
+        margin-bottom: 1rem;
+      }
+
+      label {
+        display: block;
+        font-size: 0.95rem;
+        margin-bottom: 0.4rem;
+        font-weight: 600;
+      }
+
+      input,
+      select,
+      button {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        padding: 0.85rem 0.95rem;
+        font: inherit;
+      }
+
+      input,
+      select {
+        background: #fff;
+        color: var(--ink);
+      }
+
+      button {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        margin-top: 0.2rem;
+      }
+
+      button:hover {
+        filter: brightness(1.04);
+      }
+
+      .secondary {
+        background: #fff;
+        color: var(--accent-dark);
+        border: 1px solid rgba(22, 78, 99, 0.2);
+        margin-top: 0.75rem;
+      }
+
+      .rule-list {
+        margin: 1rem 0 0;
+        padding-left: 1.2rem;
+        line-height: 1.6;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .stat-card .status {
+        display: inline-block;
+        margin-top: 0.45rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .status.on {
+        background: var(--good);
+        color: #155e3d;
+      }
+
+      .status.off {
+        background: var(--off);
+        color: #9b1c1c;
+      }
+
+      .table-wrap {
+        overflow: auto;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 760px;
+        background: #fff;
+      }
+
+      th,
+      td {
+        padding: 0.9rem 0.85rem;
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+
+      thead th {
+        background: #f8fafc;
+        color: var(--ink);
+        font-size: 0.92rem;
+      }
+
+      tbody tr:nth-child(even) {
+        background: rgba(248, 250, 252, 0.8);
+      }
+
+      .shift-on,
+      .shift-off {
+        display: inline-block;
+        padding: 0.22rem 0.55rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .shift-on {
+        background: var(--good);
+        color: #155e3d;
+      }
+
+      .shift-off {
+        background: var(--off);
+        color: #9b1c1c;
+      }
+
+      .footnote {
+        margin-top: 1rem;
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+
+      .nav-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin-top: 1rem;
+        color: var(--accent-dark);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      @media (max-width: 960px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .controls {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">Coverage Planner</p>
+        <h1>14 On / 7 Off Schedule Builder</h1>
+        <p class="hero-copy">
+          This app creates a staggered 21-day rotation for three people: one
+          assigned to Nevada, one assigned to Arizona, and one relief person
+          who covers the other two during their 7-day off blocks.
+        </p>
+
+        <div class="legend">
+          <div class="legend-card">
+            <strong>Days 1-7</strong>
+            Relief is off. Nevada and Arizona are both on.
+          </div>
+          <div class="legend-card">
+            <strong>Days 8-14</strong>
+            Arizona is off. Relief covers Arizona.
+          </div>
+          <div class="legend-card">
+            <strong>Days 15-21</strong>
+            Nevada is off. Relief covers Nevada.
+          </div>
+        </div>
+
+        <a class="nav-link" href="index.html">Back to Home</a>
+      </section>
+
+      <section class="layout">
+        <aside class="panel controls">
+          <h2>Schedule Inputs</h2>
+          <p>Pick a cycle start date and names, then generate the rotation.</p>
+
+          <div class="field">
+            <label for="cycleStart">Cycle start date</label>
+            <input id="cycleStart" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="nvName">Nevada person</label>
+            <input id="nvName" type="text" value="NV Guy" />
+          </div>
+
+          <div class="field">
+            <label for="azName">Arizona person</label>
+            <input id="azName" type="text" value="AZ Guy" />
+          </div>
+
+          <div class="field">
+            <label for="reliefName">Relief person</label>
+            <input id="reliefName" type="text" value="Relief Guy" />
+          </div>
+
+          <div class="field">
+            <label for="weeksToShow">Weeks to show</label>
+            <select id="weeksToShow">
+              <option value="4">4 weeks</option>
+              <option value="6" selected>6 weeks</option>
+              <option value="8">8 weeks</option>
+              <option value="12">12 weeks</option>
+            </select>
+          </div>
+
+          <button id="buildSchedule" type="button">Build Schedule</button>
+          <button id="useToday" type="button" class="secondary">
+            Use Today as Start
+          </button>
+
+          <ul class="rule-list">
+            <li>Each person follows the same 21-day cycle.</li>
+            <li>Each person gets 14 days on and 7 days off.</li>
+            <li>The relief person fills the off block for AZ and NV.</li>
+          </ul>
+        </aside>
+
+        <section class="panel">
+          <h2>Rotation Output</h2>
+          <p id="rangeLabel"></p>
+
+          <div class="stats" id="stats"></div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Day</th>
+                  <th>Cycle Day</th>
+                  <th>Nevada</th>
+                  <th>Arizona</th>
+                  <th>Relief</th>
+                  <th>Coverage</th>
+                  <th>Off Today</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody"></tbody>
+            </table>
+          </div>
+
+          <p class="footnote" id="footnote"></p>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const DAY_MS = 24 * 60 * 60 * 1000;
+
+      function formatInputDate(date) {
+        const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+        return local.toISOString().slice(0, 10);
+      }
+
+      function parseLocalDate(value) {
+        const [year, month, day] = value.split("-").map(Number);
+        return new Date(year, month - 1, day);
+      }
+
+      function formatLongDate(date) {
+        return new Intl.DateTimeFormat("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        }).format(date);
+      }
+
+      function formatShortDay(date) {
+        return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
+      }
+
+      function cycleDayFromOffset(offset) {
+        return (offset % 21) + 1;
+      }
+
+      function getDayAssignments(cycleDay, names) {
+        if (cycleDay >= 1 && cycleDay <= 7) {
+          return {
+            nv: "On",
+            az: "On",
+            relief: "Off",
+            coverage: names.nv + " covers NV, " + names.az + " covers AZ",
+            offToday: names.relief,
+          };
+        }
+
+        if (cycleDay >= 8 && cycleDay <= 14) {
+          return {
+            nv: "On",
+            az: "Off",
+            relief: "On",
+            coverage: names.nv + " covers NV, " + names.relief + " covers AZ",
+            offToday: names.az,
+          };
+        }
+
+        return {
+          nv: "Off",
+          az: "On",
+          relief: "On",
+          coverage: names.relief + " covers NV, " + names.az + " covers AZ",
+          offToday: names.nv,
+        };
+      }
+
+      function buildStatusBadge(status) {
+        const className = status === "On" ? "shift-on" : "shift-off";
+        return '<span class="' + className + '">' + status + "</span>";
+      }
+
+      function getTodayStatus(cycleStart, names) {
+        const today = new Date();
+        const todayLocal = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const diff = Math.floor((todayLocal - cycleStart) / DAY_MS);
+        const cycleDay = cycleDayFromOffset(((diff % 21) + 21) % 21);
+        const assignment = getDayAssignments(cycleDay, names);
+
+        return [
+          {
+            name: names.nv,
+            role: "Nevada",
+            status: assignment.nv,
+            detail: assignment.nv === "On" ? "Working today" : "Off today",
+          },
+          {
+            name: names.az,
+            role: "Arizona",
+            status: assignment.az,
+            detail: assignment.az === "On" ? "Working today" : "Off today",
+          },
+          {
+            name: names.relief,
+            role: "Relief",
+            status: assignment.relief,
+            detail:
+              assignment.relief === "On"
+                ? "Covering a day off"
+                : "Off while NV and AZ both work",
+          },
+        ];
+      }
+
+      function renderStats(cycleStart, names) {
+        const stats = document.getElementById("stats");
+        const statuses = getTodayStatus(cycleStart, names);
+
+        stats.innerHTML = statuses
+          .map(function (item) {
+            const statusClass = item.status === "On" ? "on" : "off";
+            return (
+              '<article class="stat-card">' +
+              "<strong>" +
+              item.name +
+              "</strong>" +
+              "<div>" +
+              item.role +
+              "</div>" +
+              '<span class="status ' +
+              statusClass +
+              '">' +
+              item.status +
+              "</span>" +
+              "<p>" +
+              item.detail +
+              "</p>" +
+              "</article>"
+            );
+          })
+          .join("");
+      }
+
+      function renderSchedule() {
+        const cycleStartValue = document.getElementById("cycleStart").value;
+        const names = {
+          nv: document.getElementById("nvName").value.trim() || "NV Guy",
+          az: document.getElementById("azName").value.trim() || "AZ Guy",
+          relief:
+            document.getElementById("reliefName").value.trim() || "Relief Guy",
+        };
+        const weeksToShow = Number(document.getElementById("weeksToShow").value);
+        const cycleStart = parseLocalDate(cycleStartValue);
+        const totalDays = weeksToShow * 7;
+
+        const body = document.getElementById("scheduleBody");
+        body.innerHTML = "";
+
+        for (let index = 0; index < totalDays; index += 1) {
+          const currentDate = new Date(cycleStart.getTime() + index * DAY_MS);
+          const cycleDay = cycleDayFromOffset(index);
+          const assignments = getDayAssignments(cycleDay, names);
+
+          const row = document.createElement("tr");
+          row.innerHTML =
+            "<td>" +
+            formatLongDate(currentDate) +
+            "</td>" +
+            "<td>" +
+            formatShortDay(currentDate) +
+            "</td>" +
+            "<td>Day " +
+            cycleDay +
+            "</td>" +
+            "<td>" +
+            buildStatusBadge(assignments.nv) +
+            "</td>" +
+            "<td>" +
+            buildStatusBadge(assignments.az) +
+            "</td>" +
+            "<td>" +
+            buildStatusBadge(assignments.relief) +
+            "</td>" +
+            "<td>" +
+            assignments.coverage +
+            "</td>" +
+            "<td>" +
+            assignments.offToday +
+            "</td>";
+
+          body.appendChild(row);
+        }
+
+        const endDate = new Date(cycleStart.getTime() + (totalDays - 1) * DAY_MS);
+        document.getElementById("rangeLabel").textContent =
+          "Showing " +
+          weeksToShow +
+          " weeks starting " +
+          formatLongDate(cycleStart) +
+          " and ending " +
+          formatLongDate(endDate) +
+          ".";
+
+        document.getElementById("footnote").textContent =
+          "Cycle start day is Day 1 of the 21-day rotation. Change the start date if you need a different staggered handoff.";
+
+        renderStats(cycleStart, names);
+      }
+
+      function setStartDate(date) {
+        document.getElementById("cycleStart").value = formatInputDate(date);
+      }
+
+      document.getElementById("buildSchedule").addEventListener("click", renderSchedule);
+      document.getElementById("useToday").addEventListener("click", function () {
+        setStartDate(new Date());
+        renderSchedule();
+      });
+
+      setStartDate(new Date());
+      renderSchedule();
+    </script>
+  </body>
+</html>
