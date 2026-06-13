@@ -358,43 +358,54 @@
               through an automated CI/CD pipeline with secure deployment
               controls.
             </p>
-            <h3>What this demonstrates</h3>
-            <ul>
-              <li>AI-powered personalization from structured user inputs</li>
-              <li>Serverless application design for scalable, low-ops delivery</li>
-              <li>Secure CI/CD automation for reliable releases</li>
-              <li>
-                Product thinking across UX, generated content, and practical
-                grocery-planning output
-              </li>
-            </ul>
-
             <div class="project-summary">
               <p class="summary-line">
-                <span class="summary-chip">Tech</span>
-                Serverless architecture, AI generation workflows, frontend form
-                UX, GitHub Actions CI/CD, secure deployment pipeline
+                <span class="summary-chip">Stack</span>
+                AWS Lambda · S3 · CloudFront · API Gateway · GitHub Actions
+                CI/CD · Claude AI
               </p>
               <p class="summary-line">
                 <span class="summary-chip">Inputs</span>
                 Meal preferences, budget targets, and on-hand ingredients
               </p>
               <p class="summary-line">
-                <span class="summary-chip">Outputs</span>
-                Personalized meal plan + recipe suggestions + grocery list
+                <span class="summary-chip">Output</span>
+                Personalized meal plan + recipe suggestions + organized grocery
+                list
               </p>
             </div>
+
+            <h3>Key engineering decisions</h3>
+            <ul>
+              <li>
+                Fully serverless — zero infrastructure to manage, scales to zero
+                cost when idle
+              </li>
+              <li>
+                Structured prompt engineering to produce consistent, parseable
+                AI output
+              </li>
+              <li>
+                GitHub Actions pipeline with environment-gated secrets for
+                secure deployments
+              </li>
+              <li>
+                End-to-end product ownership: UX design, AI integration, and
+                deployment
+              </li>
+            </ul>
 
             <ul class="actions">
               <li>
                 <a
                   href="https://pantry.rolandcole.com"
-                  class="button"
+                  class="button primary"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >View PantryPlanner</a
+                  >Live Demo</a
                 >
               </li>
+              <li></li>
             </ul>
           </article>
 
@@ -408,34 +419,46 @@
               S3/CloudFront, and the data API is backed by API Gateway + Lambda
               + DynamoDB.
             </p>
-            <h3>What this demonstrates</h3>
+            <div class="project-summary">
+              <p class="summary-line">
+                <span class="summary-chip">Stack</span>
+                AWS (S3, CloudFront, API Gateway, Lambda, DynamoDB, EventBridge,
+                Glue) · Python · Terraform · GitHub Actions
+              </p>
+              <p class="summary-line">
+                <span class="summary-chip">Pipeline</span>
+                Odds API → EventBridge schedule → Lambda ingest → S3 raw zone →
+                Glue normalize → DynamoDB → API Gateway → live UI
+              </p>
+              <p class="summary-line">
+                <span class="summary-chip">Deploy</span>
+                Git push → GitHub Actions → S3 sync → CloudFront cache
+                invalidation (fully automated)
+              </p>
+            </div>
+
+            <h3>Key engineering decisions</h3>
             <ul>
-              <li>Event-driven ingestion + serverless ETL</li>
-              <li>Data modeling for query-efficient reads</li>
-              <li>CI/CD automation (infra + app)</li>
               <li>
-                Production-style concerns: CORS, caching, least privilege, and
-                reliability
+                DynamoDB key design (<code>sport_date</code> +
+                <code>game_id</code>) optimized for single-query reads by date
+                and sport
+              </li>
+              <li>
+                Separated raw and curated S3 zones for reprocessability without
+                data loss
+              </li>
+              <li>
+                IAM least-privilege roles scoped per Lambda function — no shared
+                credentials
+              </li>
+              <li>
+                CORS and CloudFront caching tuned to balance freshness with API
+                cost
               </li>
             </ul>
 
-            <div class="project-summary">
-              <p class="summary-line">
-                <span class="summary-chip">Tech</span>
-                AWS (S3, CloudFront, API Gateway, Lambda, DynamoDB, EventBridge,
-                Glue), Python, Terraform, GitHub Actions
-              </p>
-              <p class="summary-line">
-                <span class="summary-chip">Outcomes</span>
-                Reliable ingestion → normalized data → low-latency API → live UI
-                table
-              </p>
-              <p class="summary-line">
-                <span class="summary-chip">Live</span>
-                CI/CD enabled via GitHub Actions → S3 sync → CloudFront cache
-                invalidation (automatic deploy on push)
-              </p>
-            </div>
+            <ul class="actions"></ul>
 
             <h3 class="diagram-title">Architecture Diagram: High-Level</h3>
             <div class="diagram-wrap">
@@ -491,7 +514,7 @@
             </div>
 
             <section class="data-section">
-              <h3>Live Demo: Today's Games + Custom Bet</h3>
+              <h3>Live Demo: Today's Games &amp; Moneyline Odds</h3>
               <p class="small-note">
                 This table is generated dynamically from my API (API Gateway +
                 Lambda) querying DynamoDB for today's slate.
@@ -499,17 +522,23 @@
               <div class="demo-controls">
                 <div class="demo-field">
                   <label class="demo-label" for="demo-sport">Sport</label>
-                  <select id="demo-sport" class="demo-input" disabled>
-                    <option value="basketball_ncaab" selected>NCAAB</option>
+                  <select id="demo-sport" class="demo-input">
+                    <option value="baseball_mlb" selected>MLB</option>
+                    <option value="basketball_nba">NBA</option>
+                    <option value="basketball_ncaab">NCAAB</option>
+                    <option value="americanfootball_nfl">NFL</option>
+                    <option value="icehockey_nhl">NHL</option>
+                    <option value="soccer_epl">EPL</option>
                   </select>
                 </div>
                 <div class="demo-field">
-                  <label class="demo-label" for="demo-date">Date</label>
+                  <label class="demo-label">Date</label>
                   <input
                     id="demo-date"
                     type="date"
                     class="demo-input"
-                    min="2026-02-14"
+                    disabled
+                    style="opacity: 0.45; cursor: not-allowed;"
                   />
                 </div>
                 <div class="demo-field">
@@ -525,7 +554,10 @@
                 </div>
                 <button id="demo-apply" class="button small">Apply</button>
               </div>
-              <p class="small-note">All times are in your local timezone.</p>
+              <p class="small-note">
+                All times are in your local timezone. If no games appear, try a
+                different sport — data depends on the active season.
+              </p>
               <p id="pipeline-status" class="pipeline-status warn">
                 Loading live demo data...
               </p>
@@ -536,7 +568,6 @@
               </div>
             </section>
           </article>
-
         </div>
       </section>
     </div>
@@ -561,7 +592,7 @@
       const PIPELINE_CONFIG = {
         dataEndpoint: "https://48zz8kcvj8.execute-api.us-east-2.amazonaws.com",
       };
-      const DEFAULT_SPORT = "basketball_ncaab";
+      const DEFAULT_SPORT = "baseball_mlb";
       const DEFAULT_STAKE = 10;
       const MIN_ALLOWED_DATE = "2026-02-14";
 
